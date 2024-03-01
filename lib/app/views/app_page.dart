@@ -303,13 +303,15 @@ class _AppPageState extends ConsumerState<AppPage> {
       return NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           final scrollOffset = scrollNotification.metrics.pixels;
-          Timer.run(() {
-            setState(() {
-              _isSliverTitleScrolledUnder =
-                  _scrolledUnderAppBar(_sliverTitleGlobalKey) &&
-                      scrollOffset != 0;
+          final scrolledUnder = _scrolledUnderAppBar(_sliverTitleGlobalKey);
+          if (_isSliverTitleScrolledUnder != scrolledUnder) {
+            Timer.run(() {
+              setState(() {
+                _isSliverTitleScrolledUnder =
+                    scrolledUnder && scrollOffset != 0;
+              });
             });
-          });
+          }
           return false;
         },
         child: CustomScrollView(
@@ -370,10 +372,13 @@ class _AppPageState extends ConsumerState<AppPage> {
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
                   final scrollOffset = scrollNotification.metrics.pixels;
-                  setState(() {
-                    _isNavigationScrolledUnder =
-                        _scrolledUnderAppBar(_navKey) && scrollOffset != 0;
-                  });
+                  final scrolledUnder = _scrolledUnderAppBar(_navKey);
+                  if (_isNavigationScrolledUnder != scrolledUnder) {
+                    setState(() {
+                      _isNavigationScrolledUnder =
+                          scrolledUnder && scrollOffset != 0;
+                    });
+                  }
                   return false;
                 },
                 child: SingleChildScrollView(
@@ -391,11 +396,13 @@ class _AppPageState extends ConsumerState<AppPage> {
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
                   final scrollOffset = scrollNotification.metrics.pixels;
-                  setState(() {
-                    _isNavigationScrolledUnder =
-                        _scrolledUnderAppBar(_navExpandedKey) &&
-                            scrollOffset != 0;
-                  });
+                  final scrolledUnder = _scrolledUnderAppBar(_navExpandedKey);
+                  if (_isNavigationScrolledUnder != scrolledUnder) {
+                    setState(() {
+                      _isNavigationScrolledUnder =
+                          scrolledUnder && scrollOffset != 0;
+                    });
+                  }
                   return false;
                 },
                 child: SingleChildScrollView(
@@ -427,11 +434,14 @@ class _AppPageState extends ConsumerState<AppPage> {
             NotificationListener<ScrollNotification>(
               onNotification: (scrollNotification) {
                 final scrollOffset = scrollNotification.metrics.pixels;
-                setState(() {
-                  _isDetailsScrolledUnder =
-                      _scrolledUnderAppBar(_detailsViewGlobalKey) &&
-                          scrollOffset != 0;
-                });
+                final scrolledUnder =
+                    _scrolledUnderAppBar(_detailsViewGlobalKey);
+                if (_isDetailsScrolledUnder != scrolledUnder) {
+                  setState(() {
+                    _isDetailsScrolledUnder =
+                        scrolledUnder && scrollOffset != 0;
+                  });
+                }
                 return false;
               },
               child: SingleChildScrollView(
